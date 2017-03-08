@@ -17,14 +17,21 @@ Two disks, every disk has 1 partitions of 1 TB
 Create raid0 array with /dev/sdc1, /dev/sdd1, put XFS on it, mount it and add it to /etc/fstab
 mdadm --create /dev/md2 -l0 -n2 -e0.90 --chunk=1024 /dev/sdc1 /dev/sdd1
 mkfs.xfs -d su=1024k -d sw=2 /dev/md2
-mount -t xfs 
-/dev/md2        /mediacache     xfs     defaults, discard        0       0
+mount -t xfs -o defaults,discard /dev/md2 /mediacache
+/dev/md2        /mediacache     xfs     defaults,discard        0       0
 
 
 Create raid1 array with /dev/sdc1, /dev/sdd1, put XFS on it, mount it and add it to /etc/fstab
+mdadm --create /dev/md2 -l1 -n2 -e0.90 --chunk=1024 /dev/sdc1 /dev/sdd1
+mkfs.xfs -d su=1024k -d sw=1 /dev/md2
+mount -t xfs -o defaults,discard /dev/md2 /mediacache
+/dev/md2        /mediacache     xfs     defaults,discard        0       0
 
 
 Create raid0 array with /dev/sdc1, /dev/sdd1, put EXT4 on it, mount it and add it to /etc/fstab
+mdadm --create /dev/md2 -l0 --chunk=1024 -n2 /dev/sdc1 /dev/sdd1
+mkfs.ext4 -b 4096 -E stride=256,stripe-width=512 /dev/md2
+
 
 
 Make one partition on /dev/sdc
