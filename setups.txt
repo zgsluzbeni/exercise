@@ -1,0 +1,31 @@
+Default chunk size for HDD is 512B and for SSD 1024B
+
+
+Raid 0 (min 2 diska)
+Chunk: 512kB
+Stripe width: (n) * Chunk = 1024 kB
+
+FS Block size: 4kB
+
+Mkfs Stride: Chunk / FS Block (512kB/4kB) = 128
+Mkfs Stripe Width: (n) * Mkfs Stride = 256
+
+
+Raid 5 (min 3 diska)
+Chunk: 512kB
+Stripe width: (n-1) * Chunk = 1024 kB
+
+FS Block size: 4kB
+
+Mkfs Stride: Chunk / FS Block (512kB/4kB) = 128
+Mkfs Stripe Width: (n-1) * Mkfs Stride = 256
+
+Raid 10 (min 8 diskova)
+Chunk: 512kB
+Stripe width: (n / 2) * Chunk = 2048kB
+
+FS Block: 4kB
+
+Mkfs Stride: Chunk / FS block (512kB / 4kB) = 128
+Mkfs Stripe width: (n / 2) * Mkfs Stride = 512
+
