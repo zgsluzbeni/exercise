@@ -1,0 +1,62 @@
+=== START OF INFORMATION SECTION ===
+Model Family:     Samsung based SSDs
+Device Model:     Samsung SSD 850 PRO 1TB
+Serial Number:    S252NXAG600229R
+User Capacity:    1,024,209,543,168 bytes [1.02 TB]
+Sector Size:      512 bytes logical/physical
+Rotation Rate:    Solid State Device
+NAND Page Size: 8KB
+NAND Erase Block Size: 1024KB
+Pages per block: 128 (1024KB / 8 KB)
+User Addressable Sectors: 250,069,680
+
+Two disks, every disk has 1 partitions of 1 TB
+/dev/sdc
+/dev/sdd
+
+Create raid0 array with /dev/sdc1, /dev/sdd1, put XFS on it, mount it and add it to /etc/fstab
+mdadm --create /dev/md2 -l0 -n2 -e0.90 --chunk=1024 /dev/sdc1 /dev/sdd1
+mkfs.xfs -d su=1024k -d sw=2 /dev/md2
+mount -t xfs 
+/dev/md2        /mediacache     xfs     defaults, discard        0       0
+
+
+Create raid1 array with /dev/sdc1, /dev/sdd1, put XFS on it, mount it and add it to /etc/fstab
+
+
+Create raid0 array with /dev/sdc1, /dev/sdd1, put EXT4 on it, mount it and add it to /etc/fstab
+
+
+Make one partition on /dev/sdc
+parted -a none /dev/sdc
+mklabel gpt
+mkpart 2048s 100%
+
+Create XFS filesystem on /dev/sdc1, mount it and add to /etc/fstab
+mkfs.xfs -d su=1024k -d sw=1 /dev/sdc1
+mount -o defaults,discard /dev/sdc1 /mediacache
+
+
+Create EXT4 filesystem on /dev/sdc1 and mount it
+mkfs.ext4 -b 4096 /dev/sdc1
+
+
+
+HDD 500GB /dev/sdf, /dev/sdg, /dev/sdh
+physical sector 512b
+logical sector 512b
+
+Create raid5 array with /dev/sdf1, /dev/sdg1, /dev/sdh1, put XFS on it, mount it and add it to /etc/fstab. Chunk size 512kb.
+
+Create raid5 array with /dev/sdf1, /dev/sdg1, /dev/sdh1 put EXT4 on it, mount it and add it to /etc/fstab. Chunk size 512kb.
+
+
+Make one partition on /dev/sdh
+
+
+Create XFS filesystem on /dev/sdh, mount it and add to /etc/fstab
+
+Create EXT4 filesystem on /dev/sdh, mount it and add to /etc/fstab
+
+
+
